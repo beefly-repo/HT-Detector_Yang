@@ -472,20 +472,20 @@ class Results(SimpleClass):
                 # print('g_avg = ', g_avg)
                 # print('green_text = ', green_text)
 
-                annotator.text([int(x0), int(y1) + y_bias], "Con.:" + str(con_dis), txt_color=(0, 0, 0))
-                annotator.text([int(x0), int(y1) + y_bias + txt_bias * 1], "G:" + str(g_dis), txt_color=(0, 255, 0))
+                annotator.text([int(x0), int(y1) + y_bias], "Con.:" + str(con_dis), txt_color=(255, 255, 255))
                 annotator.text([int(x0), int(y1) + y_bias + txt_bias * 2], "B:" + str(b_dis), txt_color=(255, 0, 0))
+                annotator.text([int(x0), int(y1) + y_bias + txt_bias * 1], "G:" + str(g_dis), txt_color=(0, 255, 0))
                 annotator.text([int(x0), int(y1) + y_bias + txt_bias * 3], "R:" + str(r_dis), txt_color=(0, 0, 255))
 
                 # annotator.text([int(x0), int(y1) - y_bias * 8 - txt_bias * 2], "No." + str(id), txt_color=(0, 0, 0))
                 if add_light:
-                    if con_dis < 5:
+                    if con_dis <= 10:
                         light = os.path.join(os.getcwd(), 'custom/lightImg/green_BGR.png')
-                    elif con_dis > 30:
+                    elif con_dis > 20:
                         light = os.path.join(os.getcwd(), 'custom/lightImg/red_BGR.png')
-                    else: # 5<con_dis<30
+                    else: # 10<con_dis<=20
                         light = os.path.join(os.getcwd(), 'custom/lightImg/yellow_BGR.png')
-                    light_dict[str(id)] = [int(x0)+15, int(y1) - y_bias * 8 - txt_bias * 2 - 300, light]
+                    light_dict[str(id)] = [int(x0)+15, int(y1) - y_bias * 8 - txt_bias * 2 - 600, light]
                 id_dict[str(id)] = [int(x0)+50, int(y1) - y_bias * 8 - txt_bias * 2]
 
                 # add c_con, b_avg, g_avg, r_avg to the overall list
@@ -501,7 +501,7 @@ class Results(SimpleClass):
                 id_dict[key][1] = y_min
             # annotate the image with ids
             for key in id_dict.keys():
-                annotator.text(id_dict[key], "No." + key, txt_color=(0, 0, 0))
+                annotator.text(id_dict[key], "No." + key, txt_color=(255, 255, 255))
                 # print(id_dict[key])
                 # print(min([id_dict[key][1] for key in id_dict.keys()]))
             # light_dict
