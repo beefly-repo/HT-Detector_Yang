@@ -218,14 +218,14 @@ class Annotator:
                         bias = 43 #  line_width=5
                         bias1 = 44  #  line_width=5  # yue
 
-                cv2.rectangle(self.im, (p1[0]+bias,p1[1]), (p2[0]+bias1, p2[1]), color, -1, cv2.LINE_AA)  # filled yue
+                cv2.rectangle(self.im, (p1[0]+round(bias*0.5),p1[1]), (p2[0]+round(bias1*0.5), p2[1]), color, -1, cv2.LINE_AA)  # filled yue
                 # print('my label:', label)
                 # print('p1[0]:', p1[0])
                 # print('p1:', p1)
                 cv2.putText(
                     self.im,
                     label,
-                    (p1[0]+bias, p1[1] - 2 if outside else p1[1] + h + 2), # yue
+                    (p1[0]+round(bias*0.5), p1[1] - 2 if outside else p1[1] + h + 2), # yue
                     0,
                     self.sf,
                     txt_color,

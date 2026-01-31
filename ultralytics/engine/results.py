@@ -336,6 +336,7 @@ class Results(SimpleClass):
             id_dict = {} # save the ids and their corresponding positions in a dictionary
             light_dict = {} # save the lights and their corresponding positions in a dictionary
             # handle each sample in one image
+            text_start_y1 = coor_list[0][3] + 50 # text in oneline
             for coor in coor_list:
                 # print('coor', coor)
                 # print('seperate:', coor[0], coor[1], coor[2], coor[3], coor[4], coor[5])
@@ -350,7 +351,7 @@ class Results(SimpleClass):
             # #         x0, y0, x1, y1 = pred_boxes.xyxy[index][0].item(), pred_boxes.xyxy[index][1].item(), pred_boxes.xyxy[index][2].item(), pred_boxes.xyxy[index][3].item()
             # #         _, _,  w,  h = pred_boxes.xywh[index][0].item(), pred_boxes.xywh[index][1].item(), pred_boxes.xywh[index][2].item(), pred_boxes.xywh[index][3].item()
             #
-                y_bias = 110
+                y_bias = 200
                 txt_bias = 70
                 if False: #center point and extend area
                     x_ratio = 1/2
@@ -472,10 +473,10 @@ class Results(SimpleClass):
                 # print('g_avg = ', g_avg)
                 # print('green_text = ', green_text)
 
-                annotator.text([int(x0), int(y1) + y_bias], "Con.:" + str(con_dis), txt_color=(255, 255, 255))
-                annotator.text([int(x0), int(y1) + y_bias + txt_bias * 2], "B:" + str(b_dis), txt_color=(255, 0, 0))
-                annotator.text([int(x0), int(y1) + y_bias + txt_bias * 1], "G:" + str(g_dis), txt_color=(0, 255, 0))
-                annotator.text([int(x0), int(y1) + y_bias + txt_bias * 3], "R:" + str(r_dis), txt_color=(0, 0, 255))
+                annotator.text([int(x0-30), int(text_start_y1) + y_bias], "Con.:" + str(con_dis), txt_color=(255, 255, 255))
+                annotator.text([int(x0-30), int(text_start_y1) + y_bias + txt_bias * 1], "B:" + str(b_dis), txt_color=(230, 107, 0))
+                annotator.text([int(x0-30), int(text_start_y1) + y_bias + txt_bias * 2], "G:" + str(g_dis), txt_color=(0, 255, 0))
+                annotator.text([int(x0-30), int(text_start_y1) + y_bias + txt_bias * 3], "R:" + str(r_dis), txt_color=(0, 0, 255))
 
                 # annotator.text([int(x0), int(y1) - y_bias * 8 - txt_bias * 2], "No." + str(id), txt_color=(0, 0, 0))
                 if add_light:
@@ -485,8 +486,8 @@ class Results(SimpleClass):
                         light = os.path.join(os.getcwd(), 'custom/lightImg/red_BGR.png')
                     else: # 10<con_dis<=20
                         light = os.path.join(os.getcwd(), 'custom/lightImg/yellow_BGR.png')
-                    light_dict[str(id)] = [int(x0)+15, int(y1) - y_bias * 8 - txt_bias * 2 - 600, light]
-                id_dict[str(id)] = [int(x0)+50, int(y1) - y_bias * 8 - txt_bias * 2]
+                    light_dict[str(id)] = [int(x0)-20, int(y1) - y_bias * 5 - txt_bias * 2 - 0, light]
+                id_dict[str(id)] = [int(x0), int(y1) - y_bias * 3 - txt_bias * 3]
 
                 # add c_con, b_avg, g_avg, r_avg to the overall list
                 if have_table: overall_list.append((id, c_con, b_avg, g_avg, r_avg))
